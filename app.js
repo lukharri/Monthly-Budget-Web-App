@@ -28,14 +28,23 @@ var uiController = (function() {
 			return DOMStrings;
 		}
 	};
-	
+
 })();
 
 
 // CONTROLLER MODULE - event handlers
 var appController = (function(budegetCtrl, uiCtrl) {
 
-	var domStrings = uiController.getDOMStrings();
+	var setEventListeners = function() {
+		var domStrings = uiController.getDOMStrings();
+		document.querySelector(domStrings.inputBtn).addEventListener('click', ctrlAddItem);
+		document.addEventListener('keypress', function(event) {
+			if(event.keyCode === 13 || event.which === 13) {
+				ctrlAddItem();
+			}
+		});
+	}
+
 
 	var ctrlAddItem = function() {
 		// 1. get the input data
@@ -50,12 +59,14 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		// 5. display budget on UI
 	}
 
-	document.querySelector(domStrings.inputBtn).addEventListener('click', ctrlAddItem);
-
-	document.addEventListener('keypress', function(event) {
-		if(event.keyCode === 13 || event.which === 13) {
-			ctrlAddItem();
+	return {
+		init: function() {
+			console.log('init is working');
+			setEventListeners();
 		}
-	});
+	};
 
 })(budgetController, uiController);
+
+
+appController.init();
