@@ -1,6 +1,29 @@
 // BUDGET MODULE - add items to data structure
 var budgetController = (function() {
 
+	var Expense = function(id, descripton, value) {
+		this.id = id;
+		this,descripton = descripton;
+		this.value = value;
+	};
+
+	var Income = function(id, descripton, value) {
+		this.id = id;
+		this,descripton = descripton;
+		this.value = value;
+	};  
+
+	var data = {
+		allItems: {
+			expense: [],
+			income: []
+		},
+		totals: {
+			expense: 0,
+			income: 0
+		}
+	}
+
 })();
 
 
@@ -50,6 +73,7 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		// 1. get the input data
 		var input = uiController.getInput();
 		console.log(input);
+
 		// 2. add item to budget controller
 
 		// 3. add item to UI
