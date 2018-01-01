@@ -3,13 +3,13 @@ var budgetController = (function() {
 
 	var Expense = function(id, descripton, value) {
 		this.id = id;
-		this,descripton = descripton;
+		this.descripton = descripton;
 		this.value = value;
 	};
 
 	var Income = function(id, descripton, value) {
 		this.id = id;
-		this,descripton = descripton;
+		this.descripton = descripton;
 		this.value = value;
 	};  
 
@@ -23,6 +23,35 @@ var budgetController = (function() {
 			income: 0
 		}
 	}
+
+
+	return {
+		addItem: function(type, description, value) {
+			var newItem, ID;
+
+			// create new item ID
+			if(data.allItems[type].length > 0){
+				ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+			} else {
+				ID = 0;
+			}
+			
+			// create new item
+			if(type === 'expense') {
+				newItem = new Expense(ID, description, value);
+			} else if( type === 'income') {
+				newItem = new Income(ID, description, value);
+			}
+
+			// store new item
+			data.allItems[type].push(newItem);
+			return newItem;
+		},
+
+		testing: function() {
+			console.log(data);
+		}
+	};
 
 })();
 
@@ -60,6 +89,8 @@ var appController = (function(budegetCtrl, uiCtrl) {
 
 	var setEventListeners = function() {
 		var domStrings = uiController.getDOMStrings();
+
+		// click or 'enter' to add a new item to the budget
 		document.querySelector(domStrings.inputBtn).addEventListener('click', ctrlAddItem);
 		document.addEventListener('keypress', function(event) {
 			if(event.keyCode === 13 || event.which === 13) {
@@ -70,11 +101,13 @@ var appController = (function(budegetCtrl, uiCtrl) {
 
 
 	var ctrlAddItem = function() {
+		var input, newItem;
+
 		// 1. get the input data
-		var input = uiController.getInput();
-		console.log(input);
+		input = uiController.getInput();
 
 		// 2. add item to budget controller
+		newItem = budgetController.addItem(input.type, input.descripton, input.value);
 
 		// 3. add item to UI
 
@@ -85,7 +118,6 @@ var appController = (function(budegetCtrl, uiCtrl) {
 
 	return {
 		init: function() {
-			console.log('init is working');
 			setEventListeners();
 		}
 	};
