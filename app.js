@@ -107,6 +107,19 @@ var uiController = (function() {
 
 		},
 
+		clearFields: function() {
+			var fieldsList, fieldsArray;
+			fieldsList = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
+
+			fieldsArray = Array.prototype.slice.call(fieldsList);
+
+			fieldsArray.forEach(function(current, index, array) {
+				current.value = "";
+			});
+
+			fieldsArray[0].focus();
+		},
+
 		getDOMStrings: function() {
 			return DOMStrings;
 		}
@@ -143,7 +156,9 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		// 3. add item to UI
 		uiController.addListItem(newItem, input.type);
 
-		// 4. caculate budget
+		// 4. Clear input fields
+		uiController.clearFields();
+		// 5. caculate budget
 
 		// 5. display budget on UI
 	}
