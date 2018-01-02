@@ -17,7 +17,7 @@ var budgetController = (function() {
 
 	calculateTotal = function(type) {
 		var sum = 0;
-		data.allItems.[type].foreach(function(current) {
+		data.allItems[type].forEach(function(current) {
 			sum += current.value;
 		});
 		data.totals[type] = sum;
@@ -70,7 +70,20 @@ var budgetController = (function() {
 			data.budget = data.totals.income - data.totals.expense;
 
 			// calculate percentage of spent income
-			data.percentage = Math.round((data.totals.expense / data.totals.income) * 100);
+			if(data.totals.income > 0) {
+				data.percentage = Math.round((data.totals.expense / data.totals.income) * 100);
+			} else {
+				data.percentage = -1;
+			}
+		},
+
+		getBudget: function() {
+			return {
+				budget: data.budget,
+				totalIncome: data.totals.income,
+				totalExpense: data.totals.expense,
+				percentage: data.percentage
+			}
 		},
 
 		testing: function() {
@@ -173,8 +186,10 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		budgetController.caculateBudget();
 
 		// 2. return budget
+		var budget = budgetController.getBudget();
 
 		// 3. display budget on UI
+		console.log(budget);
 	};
 
 
