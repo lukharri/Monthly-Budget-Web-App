@@ -1,4 +1,6 @@
-// BUDGET MODULE - add items to data structure
+
+/********************************** BUDGET MODULE **********************************/ 
+
 var budgetController = (function() {
 
 	var Expense = function(id, descripton, value) {
@@ -94,7 +96,8 @@ var budgetController = (function() {
 })();
 
 
-// UI MODULE - get input values, add new items to UI, update UI
+/******************************* USER INTERFACE MODULE *******************************/ 
+
 var uiController = (function() {
 	
 	var DOMStrings = {
@@ -130,19 +133,54 @@ var uiController = (function() {
         	} else if (type === 'expense') {
         		element = DOMStrings.expenseContainer;
         		html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%descripton%</div>' +
-            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">10%</div>' +
+            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">%percentage%</div>' +
             	'<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>' +
             	'</div></div></div>';
         	}
 
         	// replace placeholders w/actual values
-        	newHtml = html.replace('%id%', obj.id);
+            newHtml = html.replace('%id%', obj.id);
         	newHtml = newHtml.replace('%descripton%', obj.descripton);
-        	newHtml = newHtml.replace('%value%', obj.value);
+       		newHtml = newHtml.replace('%value%', obj.value);
 
         	// update UI - insert new item into income/expense list 
         	document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
+		},
+
+		displayBudget: function(obj) {
+			// display budget
+			document.querySelector('.budget__value').innerHTML = obj.budget;
+			// display total income
+			document.querySelector('.budget__income--value').innerHTML = obj.totalIncome;
+			// display total expenses
+			document.querySelector('.budget__expenses--value').innerHTML = obj.totalExpense;
+			// display expenses percentage
+			document.querySelector('.budget__expenses--percentage').innerHTML = obj.percentage;
+		},
+
+		displayMonth: function() {
+			var date, month, months;
+
+			date = new Date();
+			months = new Array();
+
+			months[0] = "January";
+			months[1] = "February";
+			months[2] = "March";
+			months[3] = "April";
+			months[4] = "May";
+			months[5] = "June";
+			months[6] = "July";
+			months[7] = "August";
+			months[8] = "September";
+			months[9] = "October";
+			months[10] = "November";
+			months[11] = "December";
+
+			month = months[date.getMonth()];
+
+			document.querySelector('.budget__title--month').innerHTML = month;
 		},
 
 		clearFields: function() {
@@ -166,7 +204,8 @@ var uiController = (function() {
 })();
 
 
-// CONTROLLER MODULE - event handlers
+/********************************** CONTROLLER MODULE **********************************/ 
+
 var appController = (function(budegetCtrl, uiCtrl) {
 
 	var setEventListeners = function() {
@@ -189,7 +228,7 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		var budget = budgetController.getBudget();
 
 		// 3. display budget on UI
-		console.log(budget);
+		uiController.displayBudget(budget);
 	};
 
 
@@ -218,6 +257,7 @@ var appController = (function(budegetCtrl, uiCtrl) {
 	return {
 		init: function() {
 			setEventListeners();
+			uiController.displayMonth();
 		}
 	};
 
