@@ -106,7 +106,11 @@ var uiController = (function() {
 		inputValue: '.add__value',
 		inputBtn: '.add__btn',
 		incomeContainer: '.income__list',
-		expenseContainer: '.expenses__list'
+		expenseContainer: '.expenses__list',
+		budgetLabel: '.budget__value',
+		incomeLabel: '.budget__income--value',
+		expenseLabel: '.budget__expenses--value',
+		percentageLabel: '.budget__expenses--percentage'
 	};
 
 
@@ -149,14 +153,15 @@ var uiController = (function() {
 		},
 
 		displayBudget: function(obj) {
-			// display budget
-			document.querySelector('.budget__value').innerHTML = obj.budget;
-			// display total income
-			document.querySelector('.budget__income--value').innerHTML = obj.totalIncome;
-			// display total expenses
-			document.querySelector('.budget__expenses--value').innerHTML = obj.totalExpense;
-			// display expenses percentage
-			document.querySelector('.budget__expenses--percentage').innerHTML = obj.percentage;
+			document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget;
+			document.querySelector(DOMStrings.incomeLabel).textContent = "+" + obj.totalIncome;
+			document.querySelector(DOMStrings.expenseLabel).textContent = "-" + obj.totalExpense;
+
+			if(obj.percentage > 0) {
+				document.querySelector(DOMStrings.percentageLabel).textContent = obj.percentage + "%";
+			} else {
+				document.querySelector(DOMStrings.percentageLabel).textContent = "--";
+			}
 		},
 
 		displayMonth: function() {
@@ -258,6 +263,12 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		init: function() {
 			setEventListeners();
 			uiController.displayMonth();
+			uiController.displayBudget({
+				budget: 0,
+				totalIncome: 0,
+				totalExpense: 0,
+				percentage: 0
+			});
 		}
 	};
 
