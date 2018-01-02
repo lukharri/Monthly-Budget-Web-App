@@ -153,7 +153,7 @@ var uiController = (function() {
         	} else if (type === 'expense') {
         		element = DOMStrings.expenseContainer;
         		html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%descripton%</div>' +
-            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">%percentage%</div>' +
+            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">%percent%</div>' +
             	'<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>' +
             	'</div></div></div>';
         	}
@@ -166,6 +166,11 @@ var uiController = (function() {
         	// update UI - insert new item into income/expense list 
         	document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
+		},
+
+		deleteListItem: function(selectorID) {
+			var element = document.getElementById(selectorID);
+			element.parentNode.removeChild(element);
 		},
 
 		displayBudget: function(obj) {
@@ -291,9 +296,10 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		budgetController.deleteItem(type, ID);
 
 		// delete item from UI
+		uiController.deleteListItem(itemID);
 
 		// update and display new budget
-
+		updateBudget();
 	};
 
 	return {
