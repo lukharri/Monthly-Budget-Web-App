@@ -284,7 +284,7 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		if(itemID) {
 			splitID = itemID.split('-');
 			type = splitID[0];
-			ID = splitID[1];
+			ID = parseInt(splitID[1]);
 		}
 
 		// delete item from data structure
