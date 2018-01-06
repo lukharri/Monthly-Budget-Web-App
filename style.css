@@ -28,7 +28,7 @@ body {
 .red-focus:focus { border: 1px solid #FF5049 !important; }
 
 /**********************************************
-*** TOP PART
+*** BACKGROUND, BUDGET TOTALS
 **********************************************/
 
 .top {
@@ -67,6 +67,7 @@ body {
 .budget__expenses {
     padding: 12px;
     text-transform: uppercase;
+    border-radius: 5px;
 }
 
 .budget__income {
@@ -109,7 +110,7 @@ body {
 
 
 /**********************************************
-*** BOTTOM PART
+*** BUDGET DETAILS
 **********************************************/
 
 /***** FORM *****/
@@ -135,6 +136,7 @@ body {
     padding-left: 15px;
     font-weight: 300;
     transition: border 0.3s;
+    border-radius: 5px;
 }
 
 .add__description,
