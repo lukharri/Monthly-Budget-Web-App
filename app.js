@@ -179,7 +179,7 @@ var uiController = (function() {
         	} else if (type === 'expense') {
         		element = DOMStrings.expenseContainer;
         		html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%descripton%</div>' +
-            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">%percent%</div>' +
+            	'<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage"></div>' +
             	'<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>' +
             	'</div></div></div>';
         	}
@@ -209,6 +209,24 @@ var uiController = (function() {
 			} else {
 				document.querySelector(DOMStrings.percentageLabel).textContent = "--";
 			}
+		},
+
+		displayPercentages: function (percentages) {
+			var fields = document.querySelectorAll(DOMStrings.expensePercentageLabel);
+
+			var nodeListForEach = function(list, callBack) {
+				for (var i = 0; i < list.length; i++) {
+					callBack(list[i], i);
+				}
+			};
+
+			nodeListForEach(fields, function(current, index){
+				if (percentages[index] > 0) {
+					current.textContent = percentages[index] + '%';
+				} else {
+					current.textContent = '--';
+				}			
+			});
 		},
 
 		displayMonth: function() {
@@ -294,7 +312,7 @@ var appController = (function(budegetCtrl, uiCtrl) {
 		var percentages = budgetController.getPercentages();
 
 		// update UI
-		
+		uiController.displayPercentages(percentages);
 	};
 
 	var ctrlAddItem = function() {
